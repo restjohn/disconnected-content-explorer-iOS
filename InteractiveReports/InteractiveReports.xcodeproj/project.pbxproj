@@ -21,6 +21,7 @@
 		7D4E1C4B1A1F9475002762B3 /* DICETests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7D4E1C4A1A1F9475002762B3 /* DICETests.mm */; };
 		7D4E1C521A1F94A5002762B3 /* ResourceTypesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D4E1C511A1F94A5002762B3 /* ResourceTypesTests.m */; };
 		7D4E1C551A1FAB44002762B3 /* ReportLinkedResourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D4E1C541A1FAB44002762B3 /* ReportLinkedResourceViewController.m */; };
+		7D7EB13C1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7EB13B1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.m */; };
 		7DA393F01A1EA09000DE9649 /* ResourceTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA393EF1A1EA09000DE9649 /* ResourceTypes.m */; };
 		7DA706B51A152B4700B558EC /* LasReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA706B41A152B4700B558EC /* LasReader.m */; };
 		7DA706B71A158E3800B558EC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DA706B61A158E3800B558EC /* MobileCoreServices.framework */; };
@@ -878,6 +879,8 @@
 		7D4E1C511A1F94A5002762B3 /* ResourceTypesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceTypesTests.m; sourceTree = "<group>"; };
 		7D4E1C531A1FAB44002762B3 /* ReportLinkedResourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportLinkedResourceViewController.h; sourceTree = "<group>"; };
 		7D4E1C541A1FAB44002762B3 /* ReportLinkedResourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportLinkedResourceViewController.m; sourceTree = "<group>"; };
+		7D7EB13A1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhirlyGlobeResourceViewController.h; sourceTree = "<group>"; };
+		7D7EB13B1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhirlyGlobeResourceViewController.m; sourceTree = "<group>"; };
 		7DA393EC1A1E6A0A00DE9649 /* ReportCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCollectionView.h; sourceTree = "<group>"; };
 		7DA393EE1A1EA09000DE9649 /* ResourceTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceTypes.h; sourceTree = "<group>"; };
 		7DA393EF1A1EA09000DE9649 /* ResourceTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceTypes.m; sourceTree = "<group>"; };
@@ -1957,6 +1960,8 @@
 			children = (
 				7D0B49241A0D885A0044236B /* GlobeViewController.h */,
 				7D0B49251A0D885A0044236B /* GlobeViewController.mm */,
+				7D7EB13A1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.h */,
+				7D7EB13B1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.m */,
 			);
 			name = "Globe View";
 			sourceTree = "<group>";
@@ -2470,6 +2475,7 @@
 				E337BCC21811AD7B00D987F9 /* Report.m in Sources */,
 				E3A73FC01855585200035C76 /* MapViewController.m in Sources */,
 				E39D837619DF2B95008357DF /* ReaderThumbsView.m in Sources */,
+				7D7EB13C1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.m in Sources */,
 				E3BC6EE4192E7A8700096EE5 /* ReportViewController.m in Sources */,
 				7D4E1C551A1FAB44002762B3 /* ReportLinkedResourceViewController.m in Sources */,
 				E39D837519DF2B95008357DF /* ReaderThumbRequest.m in Sources */,
