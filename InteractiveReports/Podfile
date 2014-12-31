@@ -5,6 +5,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'InteractiveReports' do
   pod 'objective-zip', '0.8.3'
+  # override WhirlyGlobe's clipper dependency, because cocoapods is pulling the 5.1.4 version
+  pod 'clipper', '6.1.3a'
   # override WhirlyGlobe's protobuf dependency, because it did not build with the latest GoogleProtobuf
   pod 'GoogleProtobuf', '2.5.0'
   pod 'WhirlyGlobe', '2.3'
