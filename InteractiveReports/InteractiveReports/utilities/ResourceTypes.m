@@ -23,9 +23,14 @@ NSDictionary *resourceViewers;
 + (void) initialize
 {
     resourceViewers = @{
-        @"com.glob3mobile.json-pointcloud": @"class:WhirlyGlobeResourceViewController",
+        @"public.html": @"storyboard:htmlViewController",
+        @"public.zip-archive": @"storyboard:htmlViewController",
+        @"com.adobe.pdf": @"class:PDFViewController",
+        @"com.glob3mobile.json-pointcloud": @"storyboard:globeViewController",
         @"org.asprs.las": @"storyboard:globeViewController",
-        @"com.rapidlasso.laszip": @"storyboard:globeViewController"
+        @"com.rapidlasso.laszip": @"storyboard:globeViewController",
+        @"com.google.kml": @"storyboard:globeViewController"
+        // TODO: add office types
     };
 }
 
@@ -46,6 +51,9 @@ NSDictionary *resourceViewers;
 + (BOOL)canOpenResource:(NSURL *)resource
 {
     NSString *uti = [ResourceTypes typeUtiOf:resource];
+    if ([resourceViewers valueForKey:uti]) {
+        return YES;
+    }
     NSArray *docTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDocumentTypes"];
     docTypes = [docTypes filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSDictionary *docType, NSDictionary *bindings) {
         NSArray *utiList = [docType objectForKey:@"LSItemContentTypes"];
