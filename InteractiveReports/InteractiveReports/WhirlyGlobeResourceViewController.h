@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "ResourceTypes.h"
+
 #import "WhirlyGlobeComponent.h"
 
 @interface WhirlyGlobeResourceViewController : WhirlyGlobeViewController <ResourceHandler>
