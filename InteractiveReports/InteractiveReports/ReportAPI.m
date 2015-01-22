@@ -4,6 +4,8 @@
 //
 
 #import "ReportAPI.h"
+
+#import "ResourceTypes.h"
 #import "zlib.h"
 #import "ZipFile.h"
 #import "ZipReadStream.h"
@@ -32,6 +34,7 @@
     return @"DICE.ReportImportFinished";
 }
 
+
 @end
 
 
@@ -40,10 +43,6 @@
     NSMutableArray *reports;
     NSFileManager *fileManager;
     NSURL *documentsDir;
-    // TODO: move this to ResourceTypes and consolidate all report type ingestion and handling
-    // right now DICENavigationController, AppDelegate, and this class all have logic for
-    // report type handling
-    NSArray *recognizedFileExtensions;
 }
 
 @end
@@ -70,8 +69,7 @@
         reports = [[NSMutableArray alloc] init];
         fileManager = [NSFileManager defaultManager];
         backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-        documentsDir = [fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].firstObject;
-        recognizedFileExtensions = @[@"zip", @"pdf", @"doc", @"docx", @"ppt", @"pptx", @"xls", @"xlsx", @"kml"];
+        documentsDir = [fileManager URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
     }
     
     return self;
@@ -95,6 +93,7 @@
  */
 - (void)loadReports
 {
+    NSLog(@"ReportAPI: loading reports from %@ ...", documentsDir);
     [reports removeAllObjects];
 
     NSDirectoryEnumerator *files = [fileManager enumeratorAtURL:documentsDir
@@ -103,7 +102,8 @@
         errorHandler:nil];
     
     for (NSURL *file in files) {
-        [self addReportFromFile:file afterComplete:nil];
+        NSLog(@"ReportAPI: attempting to add report from file %@", file);
+        [self addReportFromFile:[NSURL URLWithString:file.lastPathComponent relativeToURL:documentsDir] afterComplete:nil];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:[ReportNotification reportsLoaded] object:self userInfo:nil];
@@ -119,6 +119,7 @@
 
 - (void)importReportFromUrl:(NSURL *)reportURL afterImport:(void(^)(Report *))afterImportBlock
 {
+    NSLog(@"ReportAPI: importing report from %@", reportURL);
     // TODO: notify import begin if anyone cares
     
     NSString *fileName = reportURL.lastPathComponent;
@@ -128,7 +129,7 @@
     [fileManager moveItemAtURL:reportURL toURL:destFile error:&error];
     
     if (error) {
-        NSLog(@"error moving file %@ to documents directory for open request: %@", reportURL, [error localizedDescription]);
+        NSLog(@"ReportAPI: error moving file %@ to documents directory for import request: %@", reportURL, [error localizedDescription]);
     }
 
     [self addReportFromFile:destFile afterComplete:afterImportBlock];
@@ -137,16 +138,18 @@
 
 - (void)addReportFromFile:(NSURL *)file afterComplete:(void(^)(Report *))afterCompleteBlock
 {
+    NSLog(@"ReportAPI: attempting to create report from %@", file);
     NSNumber* isRegularFile;
     [file getResourceValue:&isRegularFile forKey:NSURLIsRegularFileKey error:nil];
     
-    if (isRegularFile.boolValue && [recognizedFileExtensions containsObject:file.pathExtension]) {
+    if (isRegularFile.boolValue && [ResourceTypes canOpenResource:file]) {
         NSString *title = [file.lastPathComponent stringByDeletingPathExtension];
         Report *report = [Report reportWithTitle:title];
         report.sourceFile = file;
         report.reportID = [report.sourceFile.lastPathComponent stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
         [reports addObject:report];
+        NSLog(@"ReportAPI: added new report placeholder at index %lu for report %@", reports.count - 1, file);
         
         [[NSNotificationCenter defaultCenter] postNotificationName:[ReportNotification reportAdded]
                                                             object:self
@@ -169,9 +172,10 @@
         }
         else { // PDFs and office files
             dispatch_async(backgroundQueue, ^(void) {
-                report.reportID = report.sourceFile.lastPathComponent;
                 // make sure the url's baseURL property is set
-                report.url = [NSURL URLWithString:report.sourceFile.lastPathComponent relativeToURL:[file URLByDeletingLastPathComponent]];
+                NSURL *baseURL = [report.sourceFile URLByDeletingLastPathComponent];
+                NSString *reportFileName = [report.sourceFile.lastPathComponent stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                report.url = [NSURL URLWithString:reportFileName relativeToURL:baseURL];
                 report.fileExtension = fileExtension;
                 report.isEnabled = YES;
                 [[NSNotificationCenter defaultCenter]
@@ -198,6 +202,7 @@
  */
 - (void)processZip:(Report*)report atIndex:(NSUInteger)index
 {
+    NSLog(@"processing zipped report %@ ...", report.sourceFile);
     NSURL *sourceFile = report.sourceFile;
     NSString *sourceFileName = sourceFile.lastPathComponent;
     report.title = sourceFile.lastPathComponent;
@@ -212,13 +217,16 @@
         if (![fileManager fileExistsAtPath:expectedContentDir.path]) {
             [self unzipReportContents:report toDirectory:documentsDir error:&error];
         }
-        
+        else {
+            NSLog(@"directory already exists for report zip %@", report.sourceFile);
+        }
         
         // Handle the metadata.json, make the report fancier, if it is available
         if ( [fileManager fileExistsAtPath:jsonFile.path] && error == nil) {
             NSString *jsonString = [[NSString alloc] initWithContentsOfFile:jsonFile.path encoding:NSUTF8StringEncoding error:NULL];
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
 
+            // TODO: what are the potential problems of changing the report id here from its initial value above?
             NSString *reportID = [json valueForKey:@"reportID"];
             if (reportID) {
                 report.reportID = reportID;
@@ -226,7 +234,13 @@
             report.title = [json objectForKey:@"title"];
             report.description = [json objectForKey:@"description"];
             report.thumbnail = [json objectForKey:@"thumbnail"];
-            report.tileThumbnail = [json objectForKey:@"tile_thumbnail"];
+
+            if ([json objectForKey:@"tile_thumbnail"] != nil) {
+                report.tileThumbnail = [json objectForKey:@"tile_thumbnail"];
+            } else if (report.thumbnail != nil)  {
+                report.tileThumbnail = report.thumbnail;
+            }
+            
             report.lat = [[json valueForKey:@"lat"] doubleValue];
             report.lon = [[json valueForKey:@"lon"] doubleValue];
             report.fileExtension = fileExtension;
@@ -243,8 +257,11 @@
         
         // make sure url's baseURL property is set
         report.url = [NSURL URLWithString:@"index.html" relativeToURL:expectedContentDir];
+        
+        NSLog(@"finished processing report zip %@; report url: %@", report.sourceFile, report.url.absoluteString);
     }
     @catch (NSException *exception) {
+        NSLog(@"error processing report zip %@: %@", report.sourceFile, exception);
         report.title = sourceFileName;
         report.description = @"Unable to open report";
         report.isEnabled = NO;
@@ -266,9 +283,14 @@
         *error = nil;
     }
     
+    NSLog(@"ReportAPI: extracting report contents from %@", report.sourceFile);
+    
     ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:report.sourceFile.path mode:ZipFileModeUnzip];
     int totalNumberOfFiles = (int)[unzipFile numFilesInZip];
+    report.totalNumberOfFiles = totalNumberOfFiles;
     [unzipFile goToFirstFileInZip];
+    NSUInteger bufferSize = 1 << 20;
+    NSMutableData *entryData = [NSMutableData dataWithLength:(bufferSize)];
     for (int filesExtracted = 0; filesExtracted < totalNumberOfFiles; filesExtracted++) {
         FileInZipInfo *info = [unzipFile getCurrentFileInZipInfo];
         NSString *name = info.name;
@@ -284,11 +306,10 @@
             NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:filePath];
             ZipReadStream *read = [unzipFile readCurrentFileInZip];
             NSUInteger count;
-            NSMutableData *data = [NSMutableData dataWithLength:2048];
-            while ((count = [read readDataWithBuffer:data])) {
-                data.length = count;
-                [handle writeData:data];
-                data.length = 2048;
+            while ((count = [read readDataWithBuffer:entryData])) {
+                entryData.length = count;
+                [handle writeData:entryData];
+                entryData.length = bufferSize;
             }
             [read finishedReading];
             [handle closeFile];
@@ -298,6 +319,7 @@
         [unzipFile goToNextFileInZip];
         
         if (filesExtracted % 25 == 0) {
+            report.progress = filesExtracted;
             [[NSNotificationCenter defaultCenter]
                 postNotificationName:[ReportNotification reportImportProgress]
                 object:self
@@ -310,6 +332,9 @@
     }
     
     [unzipFile close];
+    
+    NSLog(@"ReportAPI: finished extracting report %@", report.sourceFile);
+    
     return YES;
 }
 

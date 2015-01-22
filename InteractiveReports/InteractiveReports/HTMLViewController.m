@@ -9,6 +9,8 @@
 #import "NoteViewController.h"
 #import "ReportResourceViewController.h"
 #import "ResourceTypes.h"
+#import "JavaScriptAPI.h"
+#import "WebViewJavascriptBridge.h"
 
 @interface HTMLViewController () <UIWebViewDelegate>
 
@@ -16,6 +18,8 @@
 
 @property (strong, nonatomic) Report *report;
 @property (strong, nonatomic) NSURL *reportResource;
+@property (strong, nonatomic) JavaScriptAPI *javascriptAPI;
+//@property WebViewJavascriptBridge *bridge;
 
 @end
 
@@ -60,6 +64,12 @@
 }
 
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    _javascriptAPI = [[JavaScriptAPI alloc] initWithWebView:_webView report:_report andDelegate:self];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -98,6 +108,15 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showReportNotes"]) {
+        NoteViewController *noteViewController = (NoteViewController *)segue.destinationViewController;
+        noteViewController.report = self.report;
+    }
 }
 
 

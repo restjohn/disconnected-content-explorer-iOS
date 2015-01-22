@@ -18,20 +18,40 @@
 
 @implementation ResourceTypes
 
+NSArray *supportedFileExtensions;
 NSDictionary *resourceViewers;
 
 + (void) initialize
 {
+    supportedFileExtensions = @[
+        @"zip",
+        @"pdf",
+        @"doc",
+        @"docx",
+        @"ppt",
+        @"pptx",
+        @"xls",
+        @"xlsx",
+        @"kml",
+        @"g3m-pointcloud"
+    ];
+    
     resourceViewers = @{
+        @"default": @"storyboard:htmlViewController",
         @"public.html": @"storyboard:htmlViewController",
         @"public.zip-archive": @"storyboard:htmlViewController",
         @"com.adobe.pdf": @"class:PDFViewController",
         @"com.glob3mobile.json-pointcloud": @"storyboard:globeViewController",
         @"org.asprs.las": @"storyboard:globeViewController",
         @"com.rapidlasso.laszip": @"storyboard:globeViewController",
-        @"com.google.kml": @"storyboard:globeViewController"
+        @"com.google.earth.kml": @"storyboard:globeViewController"
         // TODO: add office types
     };
+}
+
++ (NSArray *)supportedFileExtensions
+{
+    return supportedFileExtensions;
 }
 
 + (NSString *)typeUtiOf:(NSURL *)resource
@@ -39,7 +59,7 @@ NSDictionary *resourceViewers;
     NSString *uti = nil;
     [resource getResourceValue:&uti forKey:NSURLTypeIdentifierKey error:nil];
     if (!uti) {
-        NSString *resourceExt = [resource pathExtension];
+        NSString *resourceExt = resource.pathExtension;
         CFStringRef utiRef = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)resourceExt, NULL);
         uti = (__bridge NSString *)utiRef;
         // TODO: does this do anything?
@@ -59,7 +79,7 @@ NSDictionary *resourceViewers;
         NSArray *utiList = [docType objectForKey:@"LSItemContentTypes"];
         return [utiList containsObject:uti];
     }]];
-    return docTypes.count > 0;
+    return docTypes.count > 0 || [supportedFileExtensions containsObject:resource.pathExtension.lowercaseString];
 }
 
 + (UIViewController<ResourceHandler> *)viewerForResource:(NSURL *)resource
@@ -68,7 +88,12 @@ NSDictionary *resourceViewers;
     NSString* viewerSpec = resourceViewers[uti];
     
     if (!viewerSpec) {
-        return nil;
+        if ([supportedFileExtensions containsObject:resource.pathExtension.lowercaseString]) {
+            viewerSpec = resourceViewers[@"default"];
+        }
+        else {
+            return nil;
+        }
     }
     
     NSArray *viewerParts = [viewerSpec componentsSeparatedByString:@":"];

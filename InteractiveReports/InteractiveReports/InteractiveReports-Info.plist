@@ -73,15 +73,15 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>com.google.kml</string>
+			<string>com.google.earth.kml</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.google.kml</string>
-				<string>com.google.kmz</string>
+				<string>com.google.earth.kml</string>
+				<string>com.google.earth.kmz</string>
 			</array>
 		</dict>
 	</array>
@@ -117,9 +117,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome.ttf</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>
@@ -228,6 +232,9 @@
 				<string>application/json+g3m-pointcloud</string>
 			</dict>
 		</dict>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
@@ -236,11 +243,9 @@
 			<key>UTTypeDescription</key>
 			<string>Google KML</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.google.kml</string>
+			<string>com.google.earth.kml</string>
 			<key>UTTypeReferenceURL</key>
 			<string>http://developers.google.com/kml/</string>
-			<key>UTTypeSize64IconFile</key>
-			<string></string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>com.apple.ostype</key>
@@ -262,7 +267,7 @@
 			<key>UTTypeDescription</key>
 			<string>Google KMZ - KML Zipped</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.google.kmz</string>
+			<string>com.google.earth.kmz</string>
 			<key>UTTypeReferenceURL</key>
 			<string>http://developers.google.com/kml/</string>
 			<key>UTTypeTagSpecification</key>
