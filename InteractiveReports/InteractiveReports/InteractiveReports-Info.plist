@@ -123,7 +123,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>mil.nga.giat.DICE</string>
+			<string>mil.dod.nga.giat.DICE</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>dice</string>
