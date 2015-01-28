@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D0953D41A76B7E800E91545 /* PointRecordParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0953D31A76B7E800E91545 /* PointRecordParser.m */; };
 		7D0AC37A1A37B8F300874608 /* full-earth-2048x1024.bil in Resources */ = {isa = PBXBuildFile; fileRef = 7D0AC3791A37B8F300874608 /* full-earth-2048x1024.bil */; };
 		7D0B49151A0D48730044236B /* libG3MiOSSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0B49141A0D482C0044236B /* libG3MiOSSDK.a */; };
 		7D0B49171A0D489D0044236B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0B49161A0D489D0044236B /* CoreData.framework */; };
@@ -20,9 +21,9 @@
 		7D2FBD191A1C098E003D9946 /* ReportCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2FBD181A1C098E003D9946 /* ReportCollectionViewController.m */; };
 		7D4E1C521A1F94A5002762B3 /* ResourceTypesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D4E1C511A1F94A5002762B3 /* ResourceTypesTests.m */; };
 		7D4E1C551A1FAB44002762B3 /* ReportResourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D4E1C541A1FAB44002762B3 /* ReportResourceViewController.m */; };
+		7D6BFF141A6EFAB100BFAFAF /* KMLBalloonManualLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6BFF131A6EFAB100BFAFAF /* KMLBalloonManualLayoutViewController.m */; };
 		7D7EB13C1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7EB13B1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.m */; };
 		7D8C08351A54682B00ED4A47 /* geography-class_medres.mbtiles in Resources */ = {isa = PBXBuildFile; fileRef = 7D8C08341A54682B00ED4A47 /* geography-class_medres.mbtiles */; };
-		7D6BFF141A6EFAB100BFAFAF /* KMLBalloonManualLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6BFF131A6EFAB100BFAFAF /* KMLBalloonManualLayoutViewController.m */; };
 		7DA393F01A1EA09000DE9649 /* ResourceTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA393EF1A1EA09000DE9649 /* ResourceTypes.m */; };
 		7DA706B51A152B4700B558EC /* LasReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA706B41A152B4700B558EC /* LasReader.m */; };
 		7DA706B71A158E3800B558EC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DA706B61A158E3800B558EC /* MobileCoreServices.framework */; };
@@ -131,6 +132,8 @@
 		0EFD368FB6CD328139F3BE06 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		36DFBBC94E870600BA2AB2FE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6A7A136C8826F72DD46DBCEE /* Pods-InteractiveReports.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InteractiveReports.release.xcconfig"; path = "Pods/Target Support Files/Pods-InteractiveReports/Pods-InteractiveReports.release.xcconfig"; sourceTree = "<group>"; };
+		7D0953D21A76B7E800E91545 /* PointRecordParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointRecordParser.h; sourceTree = "<group>"; };
+		7D0953D31A76B7E800E91545 /* PointRecordParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointRecordParser.m; sourceTree = "<group>"; };
 		7D0AC3791A37B8F300874608 /* full-earth-2048x1024.bil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "full-earth-2048x1024.bil"; sourceTree = "<group>"; };
 		7D0B461C1A0D482B0044236B /* base64.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
 		7D0B461D1A0D482B0044236B /* base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
@@ -885,11 +888,11 @@
 		7D4E1C511A1F94A5002762B3 /* ResourceTypesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceTypesTests.m; sourceTree = "<group>"; };
 		7D4E1C531A1FAB44002762B3 /* ReportResourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportResourceViewController.h; sourceTree = "<group>"; };
 		7D4E1C541A1FAB44002762B3 /* ReportResourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportResourceViewController.m; sourceTree = "<group>"; };
+		7D6BFF121A6EFAB100BFAFAF /* KMLBalloonManualLayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMLBalloonManualLayoutViewController.h; sourceTree = "<group>"; };
+		7D6BFF131A6EFAB100BFAFAF /* KMLBalloonManualLayoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMLBalloonManualLayoutViewController.m; sourceTree = "<group>"; };
 		7D7EB13A1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhirlyGlobeResourceViewController.h; sourceTree = "<group>"; };
 		7D7EB13B1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhirlyGlobeResourceViewController.m; sourceTree = "<group>"; };
 		7D8C08341A54682B00ED4A47 /* geography-class_medres.mbtiles */ = {isa = PBXFileReference; lastKnownFileType = file; path = "geography-class_medres.mbtiles"; sourceTree = "<group>"; };
-		7D6BFF121A6EFAB100BFAFAF /* KMLBalloonManualLayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMLBalloonManualLayoutViewController.h; sourceTree = "<group>"; };
-		7D6BFF131A6EFAB100BFAFAF /* KMLBalloonManualLayoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMLBalloonManualLayoutViewController.m; sourceTree = "<group>"; };
 		7DA393EC1A1E6A0A00DE9649 /* ReportCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCollectionView.h; sourceTree = "<group>"; };
 		7DA393EE1A1EA09000DE9649 /* ResourceTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceTypes.h; sourceTree = "<group>"; };
 		7DA393EF1A1EA09000DE9649 /* ResourceTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceTypes.m; sourceTree = "<group>"; };
@@ -1978,6 +1981,8 @@
 				7D0B49251A0D885A0044236B /* GlobeViewController.mm */,
 				7D7EB13A1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.h */,
 				7D7EB13B1A3A1E1500CBF742 /* WhirlyGlobeResourceViewController.m */,
+				7D0953D21A76B7E800E91545 /* PointRecordParser.h */,
+				7D0953D31A76B7E800E91545 /* PointRecordParser.m */,
 			);
 			name = "Globe View";
 			sourceTree = "<group>";
@@ -2534,6 +2539,7 @@
 				E3BC6EE1192E7A7B00096EE5 /* ListViewController.m in Sources */,
 				E39D836B19DF2B95008357DF /* ReaderContentTile.m in Sources */,
 				E39D834E19DF2B95008357DF /* ReaderDemoController.m in Sources */,
+				7D0953D41A76B7E800E91545 /* PointRecordParser.m in Sources */,
 				7D0B49261A0D885A0044236B /* GlobeViewController.mm in Sources */,
 				E39D837219DF2B95008357DF /* ReaderThumbFetch.m in Sources */,
 				7DA706B51A152B4700B558EC /* LasReader.m in Sources */,
