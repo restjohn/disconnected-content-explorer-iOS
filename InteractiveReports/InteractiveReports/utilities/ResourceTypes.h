@@ -21,6 +21,7 @@
 @interface ResourceTypes : NSObject
 
 + (NSArray *)supportedFileExtensions;
++ (NSString *)typeUtiOf:(NSURL *)resource;
 + (BOOL)canOpenResource:(NSURL *)resource;
 + (UIViewController<ResourceHandler> *)viewerForResource:(NSURL *)resource;
 

@@ -33,7 +33,8 @@ NSDictionary *resourceViewers;
         @"xls",
         @"xlsx",
         @"kml",
-        @"g3m-pointcloud"
+        @"g3m-pointcloud",
+        @"points-csv",
     ];
     
     resourceViewers = @{
@@ -44,7 +45,8 @@ NSDictionary *resourceViewers;
         @"com.glob3mobile.json-pointcloud": @"storyboard:globeViewController",
         @"org.asprs.las": @"storyboard:globeViewController",
         @"com.rapidlasso.laszip": @"storyboard:globeViewController",
-        @"com.google.earth.kml": @"storyboard:globeViewController"
+        @"com.google.earth.kml": @"class:WhirlyGlobeResourceViewController",
+        @"mil.dod.nga.giat.points-csv": @"class:WhirlyGlobeResourceViewController",
         // TODO: add office types
     };
 }
