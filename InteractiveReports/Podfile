@@ -1,17 +1,16 @@
-source 'https://github.com/restjohn/CarobTree.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
-# Uncomment this line to define a global platform for your project
-
-pod 'objective-zip', '0.8.3'
-pod 'iOS-KML-Framework', :git => 'https://github.com/restjohn/iOS-KML-Framework.git'
+pod 'CHCSVParser', '2.1.0'
 pod 'FontAwesome+iOS', :git => 'https://github.com/Hysteria/ios-fontawesome.git'
+pod 'iOS-KML-Framework', :git => 'https://github.com/restjohn/iOS-KML-Framework.git'
+pod 'objective-zip', '0.8.3'
 pod 'WebViewJavascriptBridge', '4.1.4'
+
 # override WhirlyGlobe's clipper dependency, because cocoapods is pulling the 5.1.4 version
 pod 'clipper', '6.1.3a'
 # override WhirlyGlobe's protobuf dependency, because it did not build with the latest GoogleProtobuf
 pod 'GoogleProtobuf', '2.5.0'
-pod 'WhirlyGlobe', '2.3'
+pod 'WhirlyGlobe', :path => '../../WhirlyGlobe'
 
 #target :InteractiveReports do
 #end
