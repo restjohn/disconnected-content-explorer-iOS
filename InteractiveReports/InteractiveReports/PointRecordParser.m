@@ -27,6 +27,7 @@
 
 NSInteger lastFieldIndex = -1;
 CGFloat x, y, z;
+NSString *content;
 
 - (instancetype)initWithSource:(NSURL *)source delegate:(id<PointParserDelegate>)delegate
 {
@@ -37,16 +38,31 @@ CGFloat x, y, z;
     
     _source = source;
     _delegate = delegate;
-    NSString *csvContent = [NSString stringWithContentsOfURL:source encoding:NSUTF8StringEncoding error:nil];
-    _parser = [[CHCSVParser alloc] initWithCSVString:csvContent];
-    _parser.delegate = self;
+//    NSString *csvContent = [NSString stringWithContentsOfURL:source encoding:NSUTF8StringEncoding error:nil];
+//    _parser = [[CHCSVParser alloc] initWithCSVString:csvContent];
+//    _parser.delegate = self;
     
     return self;
 }
 
 - (void)parsePoints
 {
-    [_parser parse];
+    @autoreleasepool {
+        content = [NSString stringWithContentsOfURL:_source encoding:NSUTF8StringEncoding error:nil];
+        [content enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
+            NSArray *fields = [line componentsSeparatedByString:@","];
+            CGFloat x, y, z;
+            NSString *field = fields[0];
+            x = [field floatValue];
+            field = fields[1];
+            y = [field floatValue];
+            field = fields[2];
+            z = [field floatValue];
+            [_delegate pointAtX:x y:y z:z];
+        }];
+    }
+    [_delegate parserDidFinish];
+//    [_parser parse];
 }
 
 - (void)parser:(CHCSVParser *)parser didReadField:(NSString *)field atIndex:(NSInteger)fieldIndex

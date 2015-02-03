@@ -26,10 +26,10 @@ CGFloat degToRad(CGFloat deg) {
 @end
 
 
-@implementation WhirlyGlobePointRecordParserDelegate
-
-NSMutableArray *pointCloud;
-CGFloat minLon = CGFLOAT_MAX, minLat = CGFLOAT_MAX, maxLon = CGFLOAT_MAX, maxLat = CGFLOAT_MAX, maxHeight = CGFLOAT_MAX;
+@implementation WhirlyGlobePointRecordParserDelegate {
+    NSMutableArray *pointCloud;
+    CGFloat minLon, minLat, maxLon, maxLat, maxHeight;
+}
 
 - (instancetype)initWithController:(WhirlyGlobeResourceViewController *)controller
 {
@@ -40,12 +40,15 @@ CGFloat minLon = CGFLOAT_MAX, minLat = CGFLOAT_MAX, maxLon = CGFLOAT_MAX, maxLat
     
     self.controller = controller;
     pointCloud = [[NSMutableArray alloc] init];
+    minLon = minLat = maxLon = maxLat = maxHeight = CGFLOAT_MAX;
     
     return self;
 }
 
 - (void)pointAtX:(CGFloat)x y:(CGFloat)y z:(CGFloat)z
 {
+    z /= EARTH_RADIUS;
+    
     if (minLon == CGFLOAT_MAX) {
         minLon = maxLon = x;
         minLat = maxLat = y;
@@ -54,42 +57,53 @@ CGFloat minLon = CGFLOAT_MAX, minLat = CGFLOAT_MAX, maxLon = CGFLOAT_MAX, maxLat
     else {
         minLon = fminf(x, minLon);
         minLat = fminf(y, minLat);
-        maxLon = fminf(x, maxLon);
-        maxLat = fminf(y, maxLat);
+        maxLon = fmaxf(x, maxLon);
+        maxLat = fmaxf(y, maxLat);
         maxHeight = fmaxf(z, maxHeight);
     }
     
-    // TODO: convert z to display units
-    CGFloat zDisp = z / EARTH_RADIUS;
-//    MaplyCoordinate3d coords[1] = { MaplyCoordinate3dMake(degToRad(x), degToRad(y), zDisp) };
-    MaplyShapeSphere *shape = [[MaplyShapeSphere alloc] init];
-    shape.center = MaplyCoordinateMakeWithDegrees(x, y);
-    shape.height = zDisp;
-    shape.radius = 0.0001;
-//    shape.radius = 0.01;
-//    MaplyShapeLinear *shape = [[MaplyShapeLinear alloc] initWithCoords:coords numCoords:1];
-//    shape.lineWidth = 1.0;
-    shape.color = [UIColor redColor];
-    [pointCloud addObject:shape];
+    MaplyBillboard *point = [[MaplyBillboard alloc] init];
+    point.center = MaplyCoordinate3dMake(degToRad(x), degToRad(y), z);
+    point.size = CGSizeMake(1.0 / EARTH_RADIUS, 1.0 / EARTH_RADIUS);
+    point.color = [UIColor redColor];
+    point.selectable = NO;
+    [pointCloud addObject:point];
 }
 
 - (void)parserDidFinish
 {
     maxHeight /= EARTH_RADIUS;
-    MaplyCoordinate3d bboxCoords[4] = {
-        MaplyCoordinate3dMake(degToRad(1.5 * minLon), degToRad(1.5 * minLat), maxHeight),
-        MaplyCoordinate3dMake(degToRad(1.5 * minLon), degToRad(1.5 * maxLat), maxHeight),
-        MaplyCoordinate3dMake(degToRad(1.5 * maxLon), degToRad(1.5 * maxLat), maxHeight),
-        MaplyCoordinate3dMake(degToRad(1.5 * maxLon), degToRad(1.5 * minLat), maxHeight)
-    };
+    MaplyCoordinate3d bboxCoords[5];
+    bboxCoords[0] = bboxCoords[4] = MaplyCoordinate3dMake(degToRad(minLon), degToRad(minLat), maxHeight);
+    bboxCoords[1] = MaplyCoordinate3dMake(degToRad(minLon), degToRad(maxLat), maxHeight);
+    bboxCoords[2] = MaplyCoordinate3dMake(degToRad(maxLon), degToRad(maxLat), maxHeight);
+    bboxCoords[3] = MaplyCoordinate3dMake(degToRad(maxLon), degToRad(minLat), maxHeight);
+    
     MaplyShapeLinear *bbox = [[MaplyShapeLinear alloc] initWithCoords:bboxCoords numCoords:5];
     bbox.color = [UIColor grayColor];
-    bbox.lineWidth = 10;
-    [pointCloud addObject:bbox];
-    if ([pointCloud.firstObject isKindOfClass:[MaplyShapeSphere class]]) {
-        ((MaplyShapeSphere *)pointCloud.firstObject).radius = 0.0001;
-    }
-    [_controller addShapes:pointCloud desc:nil];
+    bbox.lineWidth = 3.0;
+    
+    MaplyCoordinate3d arrowHeadCoords[3];
+    arrowHeadCoords[1] = MaplyCoordinate3dMake(degToRad(maxLon), degToRad(maxLat), maxHeight);
+    arrowHeadCoords[0] = MaplyCoordinate3dMake(degToRad(maxLon + 5), degToRad(maxLat), 0.01);
+    arrowHeadCoords[2] = MaplyCoordinate3dMake(degToRad(maxLon + 3.535533), degToRad(maxLat + 3.535533), 0.01);
+    
+    MaplyShapeLinear *arrowHead = [[MaplyShapeLinear alloc] initWithCoords:arrowHeadCoords numCoords:3];
+    arrowHead.color = [UIColor blueColor];
+    arrowHead.lineWidth = 5.0;
+    
+    MaplyCoordinate3d arrowStemCoords[2];
+    arrowStemCoords[0] = arrowHeadCoords[1];
+    arrowStemCoords[1] = MaplyCoordinate3dMake(degToRad(maxLon + 13.858193), degToRad(maxLat + 5.740251), 0.1);
+    
+    MaplyShapeLinear *arrowStem = [[MaplyShapeLinear alloc] initWithCoords:arrowStemCoords numCoords:2];
+    arrowStem.color = [UIColor grayColor];
+    arrowStem.lineWidth = 5.0;
+    
+    NSDictionary *pointCloudDesc = @{kMaplyMaxVis:[NSNumber numberWithInteger:10], kMaplyMinVis:[NSNumber numberWithInteger:0]};
+    [_controller addShapes:@[bbox, arrowHead, arrowStem] desc:pointCloudDesc];
+//    [_controller addShapes:pointCloud desc:pointCloudDesc];
+    [_controller addBillboards:pointCloud desc:pointCloudDesc mode:MaplyThreadAny];
 }
 
 - (void)parserDidEncounterError:(NSError *)error
@@ -100,7 +114,14 @@ CGFloat minLon = CGFLOAT_MAX, minLat = CGFLOAT_MAX, maxLon = CGFLOAT_MAX, maxLat
 @end
 
 
+@interface WhirlyGlobeResourceViewController ()
+
+- (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer;
+
+@end
+
 @implementation WhirlyGlobeResourceViewController {
+    UIPanGestureRecognizer *tiltPan;
     NSOperationQueue *downloadQueue;
     MaplyCoordinate cameraPosition;
 }
@@ -121,17 +142,27 @@ CGFloat minLon = CGFLOAT_MAX, minLat = CGFLOAT_MAX, maxLon = CGFLOAT_MAX, maxLat
     MaplyShapeLinear *line = [[MaplyShapeLinear alloc] initWithCoords:coords numCoords:2];
     line.lineWidth = 1.0;
     line.color = [UIColor redColor];
+    
     MaplyShapeSphere *sphere = [[MaplyShapeSphere alloc] init];
     sphere.center = MaplyCoordinateMakeWithDegrees(-105, 35);
     sphere.height = 0.0;
     sphere.radius = 0.01;
     sphere.color = [UIColor purpleColor];
+    
     MaplyShapeCircle *cir = [[MaplyShapeCircle alloc] init];
     cir.center = MaplyCoordinateMakeWithDegrees(-102, 31);
     cir.radius = 0.01;
     cir.height = 100.0 / EARTH_RADIUS;
     cir.color = [UIColor blueColor];
-    [self addShapes:@[line, sphere, cir] desc:nil];
+    
+    MaplyShapeGreatCircle *great = [[MaplyShapeGreatCircle alloc] init];
+    great.startPt = MaplyCoordinateMakeWithDegrees(-104.0, 36.4);
+    great.endPt = MaplyCoordinateMakeWithDegrees(-102.0, 37.5);
+    great.height = 0.0;
+    great.lineWidth = 5.0;
+    great.color = [UIColor greenColor];
+    
+    [self addShapes:@[line, sphere, cir, great] desc:@{kMaplyMaxVis:[NSNumber numberWithInteger:10], kMaplyMinVis:[NSNumber numberWithInteger:0]}];
 }
 
 - (void)handleKMLResource:(NSURL *)resource
@@ -193,8 +224,7 @@ CGFloat minLon = CGFLOAT_MAX, minLat = CGFLOAT_MAX, maxLon = CGFLOAT_MAX, maxLat
     self.frameInterval = 2;
     
     // set up the data source
-    MaplyMBTileSource *tileSource =
-    [[MaplyMBTileSource alloc] initWithMBTiles:@"geography-class_medres"];
+    MaplyMBTileSource *tileSource = [[MaplyMBTileSource alloc] initWithMBTiles:@"geography-class_medres"];
     
     // set up the layer
     MaplyQuadImageTilesLayer *layer =
@@ -206,12 +236,33 @@ CGFloat minLon = CGFLOAT_MAX, minLat = CGFLOAT_MAX, maxLon = CGFLOAT_MAX, maxLat
     layer.waitLoad = false;
     layer.drawPriority = 0;
     layer.singleLevelLoading = false;
+    
     [self addLayer:layer];
 
+//    tiltPan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+//    tiltPan.minimumNumberOfTouches = 3;
+//    tiltPan.maximumNumberOfTouches = 3;
+//    [self.view addGestureRecognizer:tiltPan];
+    
+    self.twoFingerTapGesture = NO;
+    self.zoomTapFactor = 0.0;
+    self.tilt = 0.0;
     self.height = 0.8;
-    [self animateToPosition:MaplyCoordinateMakeWithDegrees(-122.4192,37.7793) time:1.0];
+    
+    [self setTiltMinHeight:0.0 maxHeight:1.0 minTilt:M_PI_4 maxTilt:M_PI_4];
+    
+    [self animateToPosition:MaplyCoordinateMakeWithDegrees(-122.4192, 37.7793) time:1.0];
 }
 
+- (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer != tiltPan) {
+        return;
+    }
+    
+    NSLog(@"pan translation: %@", NSStringFromCGPoint([tiltPan translationInView:self.view]));
+    NSLog(@"pan velocity: %@", NSStringFromCGPoint([tiltPan velocityInView:self.view]));
+}
 
 - (void)didReceiveMemoryWarning
 {
