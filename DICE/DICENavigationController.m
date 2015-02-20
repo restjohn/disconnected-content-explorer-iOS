@@ -26,6 +26,9 @@
 
 
 @implementation DICENavigationController
+{
+    BOOL disclaimerShown;
+}
 
 + (NSMutableDictionary *)parseQueryParametersFromURL:(NSURL *)url
 {
@@ -42,12 +45,19 @@
 
 - (void)viewDidLoad
 {
+    disclaimerShown = NO;
+    
     if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.interactivePopGestureRecognizer.enabled = NO;
     }
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    [notificationCenter addObserver:self selector:@selector(handleDisclaimer) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [self handleDisclaimer];
 }
 
 
@@ -114,14 +124,18 @@
 
 - (void)handleDisclaimer
 {
+    if (disclaimerShown) {
+        return;
+    }
+    disclaimerShown = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:@"preventDisclaimer"]) {
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         DisclaimerViewController *disclaimer = [mainStoryboard instantiateViewControllerWithIdentifier:@"disclaimer"];
-        [self presentViewController:disclaimer animated:YES completion:nil];
+        dispatch_after(DISPATCH_TIME_NOW, dispatch_get_main_queue(), ^{
+            [self presentViewController:disclaimer animated:YES completion:nil];
+        });
     }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
