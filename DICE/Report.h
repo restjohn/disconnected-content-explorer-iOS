@@ -18,8 +18,8 @@
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic) double lat;
 @property (nonatomic) double lon;
-@property (nonatomic) int totalNumberOfFiles;
-@property (nonatomic) int progress;
+@property (nonatomic) NSUInteger totalNumberOfFiles;
+@property (nonatomic) NSUInteger progress;
 @property (nonatomic) BOOL isEnabled;
 
 // Designated initializer

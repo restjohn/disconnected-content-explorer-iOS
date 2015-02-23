@@ -128,7 +128,7 @@
     else {
         cell.userInteractionEnabled = cell.textLabel.enabled = cell.detailTextLabel.enabled = NO;
         if (report.totalNumberOfFiles > 0 && report.progress > 0) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d of %d files unzipped", report.progress, report.totalNumberOfFiles ];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu of %lu files unzipped", (unsigned long)report.progress, (unsigned long)report.totalNumberOfFiles ];
         }
     }
     

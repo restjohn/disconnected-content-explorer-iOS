@@ -84,7 +84,7 @@
     else {
         cell.userInteractionEnabled = NO;
         if (report.totalNumberOfFiles > 0 && report.progress > 0) {
-            cell.reportDescription.text = [NSString stringWithFormat:@"%d of %d files unzipped", report.progress, report.totalNumberOfFiles ];
+            cell.reportDescription.text = [NSString stringWithFormat:@"%lu of %lu files unzipped", report.progress, report.totalNumberOfFiles ];
         }
     }
     

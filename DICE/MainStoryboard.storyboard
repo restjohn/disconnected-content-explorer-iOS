@@ -423,6 +423,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionSubview" destination="olg-Y4-UG8" id="4Z3-aV-h7Z"/>
+                        <outlet property="viewSegments" destination="Ftu-zH-WEa" id="qNh-lk-wsz"/>
                         <segue destination="TDl-G2-Z3N" kind="push" identifier="showReport" id="CPK-7s-HRC"/>
                     </connections>
                 </viewController>
@@ -473,13 +474,64 @@
                                     <constraint firstAttribute="bottom" secondItem="aOh-B5-gVZ" secondAttribute="bottom" id="mS1-hg-bF0"/>
                                 </constraints>
                             </view>
+                            <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dun-8e-Imc" userLabel="Import Progress">
+                                <rect key="frame" x="428" y="912" width="320" height="92"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="38" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="IEq-yI-VDg" userLabel="Import Progress Table">
+                                        <rect key="frame" x="0.0" y="20" width="320" height="42"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <prototypes>
+                                            <tableViewCell alpha="0.75" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="uS0-Do-NBm" detailTextLabel="v8h-MG-tFe" rowHeight="40" style="IBUITableViewCellStyleSubtitle" id="Bwu-NE-dju">
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.75" contentMode="center" tableViewCell="Bwu-NE-dju" id="ksH-0k-bKw">
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" multipleTouchEnabled="YES" alpha="0.75" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uS0-Do-NBm">
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" multipleTouchEnabled="YES" alpha="0.75" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v8h-MG-tFe">
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="IEq-yI-VDg" firstAttribute="leading" secondItem="dun-8e-Imc" secondAttribute="leading" id="SAB-sa-Faf"/>
+                                    <constraint firstAttribute="bottom" secondItem="IEq-yI-VDg" secondAttribute="bottom" constant="30" id="VPx-Sx-MkS"/>
+                                    <constraint firstAttribute="width" constant="320" id="aCt-Kj-CzB"/>
+                                    <constraint firstItem="IEq-yI-VDg" firstAttribute="top" secondItem="dun-8e-Imc" secondAttribute="top" constant="20" id="aox-kO-Rhl"/>
+                                    <constraint firstAttribute="trailing" secondItem="IEq-yI-VDg" secondAttribute="trailing" id="hCX-RV-X5Q"/>
+                                    <constraint firstAttribute="height" constant="92" id="hCl-1a-M7i"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="qyU-0Y-MvK" userLabel="Import Indicator">
+                                <rect key="frame" x="728" y="984" width="20" height="20"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="9V3-PR-dSm" appends="YES" id="h0S-Ez-vnC"/>
+                                </connections>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ysV-dQ-vF9" firstAttribute="centerX" secondItem="aCD-Yd-k1W" secondAttribute="centerX" id="4qV-Ny-35S"/>
                             <constraint firstItem="aCD-Yd-k1W" firstAttribute="top" secondItem="pnh-G5-3hK" secondAttribute="bottom" constant="258" id="7gg-Lc-W6E"/>
                             <constraint firstItem="ysV-dQ-vF9" firstAttribute="top" secondItem="76W-pS-RQK" secondAttribute="top" id="8Ab-EH-mj5"/>
+                            <constraint firstItem="dun-8e-Imc" firstAttribute="trailing" secondItem="qyU-0Y-MvK" secondAttribute="trailing" id="B9z-bo-l2h"/>
                             <constraint firstItem="ysV-dQ-vF9" firstAttribute="bottom" secondItem="E3j-ZE-fDY" secondAttribute="top" id="Bho-K9-eog"/>
+                            <constraint firstItem="dun-8e-Imc" firstAttribute="bottom" secondItem="qyU-0Y-MvK" secondAttribute="bottom" id="W5f-hL-6pH"/>
+                            <constraint firstItem="qyU-0Y-MvK" firstAttribute="trailing" secondItem="76W-pS-RQK" secondAttribute="trailingMargin" id="cN4-eZ-nhH"/>
+                            <constraint firstItem="E3j-ZE-fDY" firstAttribute="top" secondItem="qyU-0Y-MvK" secondAttribute="bottom" constant="20" id="fAq-xF-y7K"/>
                             <constraint firstAttribute="trailing" secondItem="ysV-dQ-vF9" secondAttribute="trailing" id="rzk-Sf-a9x"/>
                             <constraint firstItem="ysV-dQ-vF9" firstAttribute="leading" secondItem="76W-pS-RQK" secondAttribute="leading" id="sMb-08-p7H"/>
                         </constraints>
@@ -487,13 +539,23 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="768" height="1024"/>
                     <connections>
+                        <outlet property="importIndicator" destination="qyU-0Y-MvK" id="mcM-gO-9Xl"/>
+                        <outlet property="importProgressHeight" destination="hCl-1a-M7i" id="1av-xc-YZf"/>
+                        <outlet property="importProgressTableView" destination="IEq-yI-VDg" id="DKh-22-cMv"/>
+                        <outlet property="importProgressView" destination="dun-8e-Imc" id="iVE-Ik-7uP"/>
+                        <outlet property="importProgressWidth" destination="aCt-Kj-CzB" id="Zco-iJ-htJ"/>
                         <outlet property="mapView" destination="ysV-dQ-vF9" id="RVZ-9L-iNt"/>
                         <outlet property="noLocationsView" destination="aCD-Yd-k1W" id="aa9-Lc-VAj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FcX-WF-FRT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="9V3-PR-dSm">
+                    <connections>
+                        <action selector="importIndicatorTapped:" destination="0yA-Pc-3Yj" id="g4Y-3V-vxo"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1388" y="2011"/>
+            <point key="canvasLocation" x="-1194" y="1766"/>
         </scene>
         <!--Report Resource View Container-->
         <scene sceneID="YFE-zQ-7hJ">

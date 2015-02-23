@@ -20,6 +20,7 @@
 		7D75FBFA1A852C9400CA05D4 /* ne_50m-110m_land.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 7D75FBF91A852C9400CA05D4 /* ne_50m-110m_land.geojson */; };
 		7D75FC121A85603800CA05D4 /* attributions in Resources */ = {isa = PBXBuildFile; fileRef = 7D75FC111A85603800CA05D4 /* attributions */; };
 		7D75FC141A8560BD00CA05D4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D75FC131A8560BD00CA05D4 /* Images.xcassets */; };
+		7D9C4E071A95123C00FD92B0 /* ImportProgressTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9C4E061A95123B00FD92B0 /* ImportProgressTableController.m */; };
 		7DA393F01A1EA09000DE9649 /* ResourceTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA393EF1A1EA09000DE9649 /* ResourceTypes.m */; };
 		7DA706B71A158E3800B558EC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DA706B61A158E3800B558EC /* MobileCoreServices.framework */; };
 		AC699E8B14383058C8CF7C9D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B73CA51504D8A8B497186523 /* libPods.a */; };
@@ -133,6 +134,8 @@
 		7D75FBF91A852C9400CA05D4 /* ne_50m-110m_land.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "ne_50m-110m_land.geojson"; path = "resources/ne_50m-110m_land.geojson"; sourceTree = "<group>"; };
 		7D75FC111A85603800CA05D4 /* attributions */ = {isa = PBXFileReference; lastKnownFileType = folder; name = attributions; path = resources/attributions; sourceTree = "<group>"; };
 		7D75FC131A8560BD00CA05D4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = resources/Images.xcassets; sourceTree = "<group>"; };
+		7D9C4E051A95123B00FD92B0 /* ImportProgressTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImportProgressTableController.h; sourceTree = "<group>"; };
+		7D9C4E061A95123B00FD92B0 /* ImportProgressTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImportProgressTableController.m; sourceTree = "<group>"; };
 		7DA393EC1A1E6A0A00DE9649 /* ReportCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCollectionView.h; sourceTree = "<group>"; };
 		7DA393EE1A1EA09000DE9649 /* ResourceTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceTypes.h; sourceTree = "<group>"; };
 		7DA393EF1A1EA09000DE9649 /* ResourceTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceTypes.m; sourceTree = "<group>"; };
@@ -492,6 +495,8 @@
 				E3A73FBF1855585200035C76 /* MapViewController.m */,
 				E3A73FC1185559FC00035C76 /* ReportMapAnnotation.h */,
 				E3A73FC2185559FC00035C76 /* ReportMapAnnotation.m */,
+				7D9C4E051A95123B00FD92B0 /* ImportProgressTableController.h */,
+				7D9C4E061A95123B00FD92B0 /* ImportProgressTableController.m */,
 			);
 			name = "Map View";
 			sourceTree = "<group>";
@@ -780,6 +785,7 @@
 				E39D837819DF2B95008357DF /* ReaderViewController.m in Sources */,
 				E39D834C19DF2B95008357DF /* ReaderAppDelegate.m in Sources */,
 				E39D837319DF2B95008357DF /* ReaderThumbQueue.m in Sources */,
+				7D9C4E071A95123C00FD92B0 /* ImportProgressTableController.m in Sources */,
 				E3FBB31217C9527000E133D6 /* main.m in Sources */,
 				E3FBB31617C9527000E133D6 /* AppDelegate.m in Sources */,
 				E39D836C19DF2B95008357DF /* ReaderContentView.m in Sources */,

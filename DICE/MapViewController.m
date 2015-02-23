@@ -5,15 +5,27 @@
 
 #import "MapViewController.h"
 
+#import "ImportProgressTableController.h"
+
 #define METERS_PER_MILE = 1609.344
 
 @interface MapViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *noLocationsView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *importIndicator;
+@property (weak, nonatomic) IBOutlet UIView *importProgressView;
+@property (weak, nonatomic) IBOutlet UITableView *importProgressTableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *importProgressWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *importProgressHeight;
+
+@property (strong, nonatomic) ImportProgressTableController *importProgressTable;
+
+- (IBAction)importIndicatorTapped:(UITapGestureRecognizer *)sender;
 
 @end
 
-@implementation MapViewController {
+@implementation MapViewController
+{
     BOOL polygonsAdded;
 }
 
@@ -25,6 +37,16 @@
     self.noLocationsView.layer.cornerRadius = 10.0;
     self.mapView.delegate = self;
     polygonsAdded = NO;
+    
+    self.importProgressTable = [[ImportProgressTableController alloc] init];
+    self.importProgressTable.tableView = self.importProgressTableView;
+    [self.importProgressTable willMoveToParentViewController:self];
+    [self addChildViewController:self.importProgressTable];
+    self.importProgressView.layer.cornerRadius = self.importIndicator.bounds.size.width / 2;
+    self.importProgressWidth.constant = self.importIndicator.bounds.size.width;
+    self.importProgressHeight.constant = self.importIndicator.bounds.size.height;
+    self.importProgressView.hidden = YES;
+
 }
 
 
@@ -135,6 +157,42 @@
 {
     _selectedReport = ((ReportMapAnnotation *)view.annotation).report;
     [self.delegate reportSelectedToView:_selectedReport];
+}
+
+- (IBAction)importIndicatorTapped:(UITapGestureRecognizer *)sender
+{
+    [self toggleImportProgressView];
+}
+
+- (void)toggleImportProgressView
+{
+    if (self.importProgressView.hidden) {
+        [self showImportProgressView];
+    }
+    else {
+        [self hideImportProgressView];
+    }
+}
+
+- (void)showImportProgressView
+{
+    self.importProgressView.hidden = NO;
+    self.importProgressWidth.constant = 320.0;
+    self.importProgressHeight.constant = 92.0;
+    [UIView animateWithDuration:0.25 animations:^{
+        [self.importProgressView layoutIfNeeded];
+    }];
+}
+
+- (void)hideImportProgressView
+{
+    self.importProgressWidth.constant = self.importIndicator.frame.size.width;
+    self.importProgressHeight.constant = self.importIndicator.frame.size.height;
+    [UIView animateWithDuration:0.25 animations:^{
+        [self.importProgressView layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.importProgressView.hidden = YES;
+    }];
 }
 
 @end
