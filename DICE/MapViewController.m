@@ -43,10 +43,9 @@
     [self.importProgressTable willMoveToParentViewController:self];
     [self addChildViewController:self.importProgressTable];
     self.importProgressView.layer.cornerRadius = self.importIndicator.bounds.size.width / 2;
+    self.importProgressView.hidden = YES;
     self.importProgressWidth.constant = self.importIndicator.bounds.size.width;
     self.importProgressHeight.constant = self.importIndicator.bounds.size.height;
-    self.importProgressView.hidden = YES;
-
 }
 
 

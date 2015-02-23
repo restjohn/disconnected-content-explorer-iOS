@@ -507,10 +507,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="IEq-yI-VDg" firstAttribute="leading" secondItem="dun-8e-Imc" secondAttribute="leading" id="SAB-sa-Faf"/>
-                                    <constraint firstAttribute="bottom" secondItem="IEq-yI-VDg" secondAttribute="bottom" constant="30" id="VPx-Sx-MkS"/>
+                                    <constraint firstAttribute="bottom" secondItem="IEq-yI-VDg" secondAttribute="bottom" priority="999" constant="30" id="VPx-Sx-MkS"/>
                                     <constraint firstAttribute="width" constant="320" id="aCt-Kj-CzB"/>
-                                    <constraint firstItem="IEq-yI-VDg" firstAttribute="top" secondItem="dun-8e-Imc" secondAttribute="top" constant="20" id="aox-kO-Rhl"/>
-                                    <constraint firstAttribute="trailing" secondItem="IEq-yI-VDg" secondAttribute="trailing" id="hCX-RV-X5Q"/>
+                                    <constraint firstItem="IEq-yI-VDg" firstAttribute="top" secondItem="dun-8e-Imc" secondAttribute="top" priority="999" constant="20" id="aox-kO-Rhl"/>
+                                    <constraint firstAttribute="trailing" secondItem="IEq-yI-VDg" secondAttribute="trailing" priority="999" id="hCX-RV-X5Q"/>
                                     <constraint firstAttribute="height" constant="92" id="hCl-1a-M7i"/>
                                 </constraints>
                             </view>
