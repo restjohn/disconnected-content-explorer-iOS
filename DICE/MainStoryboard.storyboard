@@ -481,7 +481,7 @@
                                         <rect key="frame" x="0.0" y="20" width="320" height="42"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell alpha="0.75" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="uS0-Do-NBm" detailTextLabel="v8h-MG-tFe" rowHeight="40" style="IBUITableViewCellStyleSubtitle" id="Bwu-NE-dju">
+                                            <tableViewCell alpha="0.75" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pendingReportCell" textLabel="uS0-Do-NBm" detailTextLabel="v8h-MG-tFe" rowHeight="40" style="IBUITableViewCellStyleSubtitle" id="Bwu-NE-dju">
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.75" contentMode="center" tableViewCell="Bwu-NE-dju" id="ksH-0k-bKw">
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -521,19 +521,62 @@
                                     <outletCollection property="gestureRecognizers" destination="9V3-PR-dSm" appends="YES" id="h0S-Ez-vnC"/>
                                 </connections>
                             </activityIndicatorView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1gF-8q-0JT" userLabel="Import Progress Test">
+                                <rect key="frame" x="90" y="933" width="248" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WG6-0Z-les">
+                                        <rect key="frame" x="20" y="10" width="89" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="89" id="Cta-Tk-MYV"/>
+                                            <constraint firstAttribute="height" constant="30" id="DnB-Rg-ova"/>
+                                        </constraints>
+                                        <state key="normal" title="Begin Import">
+                                            <color key="titleColor" red="0.0" green="0.78364158163265307" blue="0.069368128337045934" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="testImportBegin" destination="0yA-Pc-3Yj" eventType="touchUpInside" id="snD-Lb-LDn"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="icj-tk-mby">
+                                        <rect key="frame" x="138" y="10" width="90" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="90" id="brP-B9-7W6"/>
+                                            <constraint firstAttribute="height" constant="30" id="sKq-PG-hWW"/>
+                                        </constraints>
+                                        <state key="normal" title="Finish Import">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="testImportFinish" destination="0yA-Pc-3Yj" eventType="touchUpInside" id="MCZ-iP-HNL"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="icj-tk-mby" secondAttribute="centerY" id="1tH-Xi-Qup"/>
+                                    <constraint firstAttribute="centerX" secondItem="icj-tk-mby" secondAttribute="centerX" constant="-59" id="BJz-za-ohA"/>
+                                    <constraint firstItem="icj-tk-mby" firstAttribute="leading" secondItem="WG6-0Z-les" secondAttribute="trailing" constant="29" id="XVa-wK-lKr"/>
+                                    <constraint firstAttribute="centerY" secondItem="WG6-0Z-les" secondAttribute="centerY" id="oKC-OR-nhY"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ysV-dQ-vF9" firstAttribute="centerX" secondItem="aCD-Yd-k1W" secondAttribute="centerX" id="4qV-Ny-35S"/>
                             <constraint firstItem="aCD-Yd-k1W" firstAttribute="top" secondItem="pnh-G5-3hK" secondAttribute="bottom" constant="258" id="7gg-Lc-W6E"/>
                             <constraint firstItem="ysV-dQ-vF9" firstAttribute="top" secondItem="76W-pS-RQK" secondAttribute="top" id="8Ab-EH-mj5"/>
+                            <constraint firstItem="1gF-8q-0JT" firstAttribute="centerY" secondItem="dun-8e-Imc" secondAttribute="centerY" id="9lx-1w-OLN"/>
                             <constraint firstItem="dun-8e-Imc" firstAttribute="trailing" secondItem="qyU-0Y-MvK" secondAttribute="trailing" id="B9z-bo-l2h"/>
                             <constraint firstItem="ysV-dQ-vF9" firstAttribute="bottom" secondItem="E3j-ZE-fDY" secondAttribute="top" id="Bho-K9-eog"/>
+                            <constraint firstItem="dun-8e-Imc" firstAttribute="leading" secondItem="1gF-8q-0JT" secondAttribute="trailing" constant="90" id="Nlj-KG-38C"/>
                             <constraint firstItem="dun-8e-Imc" firstAttribute="bottom" secondItem="qyU-0Y-MvK" secondAttribute="bottom" id="W5f-hL-6pH"/>
                             <constraint firstItem="qyU-0Y-MvK" firstAttribute="trailing" secondItem="76W-pS-RQK" secondAttribute="trailingMargin" id="cN4-eZ-nhH"/>
+                            <constraint firstItem="E3j-ZE-fDY" firstAttribute="top" secondItem="1gF-8q-0JT" secondAttribute="bottom" constant="41" id="cmf-j8-znn"/>
                             <constraint firstItem="E3j-ZE-fDY" firstAttribute="top" secondItem="qyU-0Y-MvK" secondAttribute="bottom" constant="20" id="fAq-xF-y7K"/>
                             <constraint firstAttribute="trailing" secondItem="ysV-dQ-vF9" secondAttribute="trailing" id="rzk-Sf-a9x"/>
                             <constraint firstItem="ysV-dQ-vF9" firstAttribute="leading" secondItem="76W-pS-RQK" secondAttribute="leading" id="sMb-08-p7H"/>
+                            <constraint firstItem="1gF-8q-0JT" firstAttribute="leading" secondItem="76W-pS-RQK" secondAttribute="leadingMargin" constant="70" id="uet-1i-DFs"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

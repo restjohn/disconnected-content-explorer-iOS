@@ -359,7 +359,6 @@
         [unzipFile goToNextFileInZip];
         
         if (filesExtracted % 25 == 0) {
-            report.progress = filesExtracted;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[NSNotificationCenter defaultCenter]
                     postNotificationName:[ReportNotification reportImportProgress]

@@ -10,4 +10,6 @@
 
 @interface ImportProgressTableController : UITableViewController
 
+- (instancetype)initWithTableView:(UITableView *)tableView;
+
 @end

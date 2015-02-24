@@ -6,6 +6,7 @@
 #import "MapViewController.h"
 
 #import "ImportProgressTableController.h"
+#import "ReportAPI.h"
 
 #define METERS_PER_MILE = 1609.344
 
@@ -21,6 +22,8 @@
 @property (strong, nonatomic) ImportProgressTableController *importProgressTable;
 
 - (IBAction)importIndicatorTapped:(UITapGestureRecognizer *)sender;
+- (IBAction)testImportBegin;
+- (IBAction)testImportFinish;
 
 @end
 
@@ -38,14 +41,13 @@
     self.mapView.delegate = self;
     polygonsAdded = NO;
     
-    self.importProgressTable = [[ImportProgressTableController alloc] init];
-    self.importProgressTable.tableView = self.importProgressTableView;
+    self.importProgressTable = [[ImportProgressTableController alloc] initWithTableView:self.importProgressTableView];
     [self.importProgressTable willMoveToParentViewController:self];
     [self addChildViewController:self.importProgressTable];
     self.importProgressView.layer.cornerRadius = self.importIndicator.bounds.size.width / 2;
-    self.importProgressView.hidden = YES;
-    self.importProgressWidth.constant = self.importIndicator.bounds.size.width;
-    self.importProgressHeight.constant = self.importIndicator.bounds.size.height;
+//    self.importProgressView.hidden = YES;
+//    self.importProgressWidth.constant = self.importIndicator.bounds.size.width;
+//    self.importProgressHeight.constant = self.importIndicator.bounds.size.height;
 }
 
 
@@ -163,6 +165,48 @@
     [self toggleImportProgressView];
 }
 
+- (IBAction)testImportBegin
+{
+    NSUInteger total = (NSUInteger)floor((drand48() * 25.0));
+    NSString *id = [[NSUUID UUID] UUIDString];
+    Report *report = [Report reportWithTitle:[NSString stringWithFormat:@"Test - %@", id]];
+    report.reportID = id;
+    report.totalNumberOfFiles = total;
+    report.progress = 0;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:[ReportNotification reportImportBegan] object:nil
+             userInfo:@{@"report":report}];
+        [self testImportAdvanceProgressForReport:report];
+    });
+}
+
+- (IBAction)testImportFinish
+{
+}
+
+- (void)testImportAdvanceProgressForReport:(Report *)report
+{
+    if (report.progress == report.totalNumberOfFiles) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:[ReportNotification reportImportFinished] object:nil
+                userInfo:@{@"report":report}];
+        });
+        return;
+    }
+
+    dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC);
+    dispatch_after(delay, dispatch_get_main_queue(), ^{
+        report.progress++;
+        [[NSNotificationCenter defaultCenter] postNotificationName:[ReportNotification reportImportProgress] object:nil
+            userInfo:@{
+                @"report":report,
+                @"totalNumberOfFiles":[NSString stringWithFormat:@"%lu", report.totalNumberOfFiles],
+                @"progress":[NSString stringWithFormat:@"%lu", report.progress]
+            }];
+        [self testImportAdvanceProgressForReport:report];
+    });
+}
+
 - (void)toggleImportProgressView
 {
     if (self.importProgressView.hidden) {
@@ -188,10 +232,11 @@
     self.importProgressWidth.constant = self.importIndicator.frame.size.width;
     self.importProgressHeight.constant = self.importIndicator.frame.size.height;
     [UIView animateWithDuration:0.25 animations:^{
-        [self.importProgressView layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.importProgressView.hidden = YES;
-    }];
+            [self.importProgressView layoutIfNeeded];
+        }
+        completion:^(BOOL finished) {
+            self.importProgressView.hidden = YES;
+        }];
 }
 
 @end

@@ -19,9 +19,16 @@
     NSMutableArray *pendingReports;
 }
 
-- (void)viewDidLoad
+- (instancetype)initWithTableView:(UITableView *)tableView
 {
-    [super viewDidLoad];
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.tableView = tableView;
+    tableView.delegate = self;
+    tableView.dataSource = self;
     
     pendingReports = [self findPendingReports];
     
@@ -29,7 +36,9 @@
     
     [notifications addObserver:self selector:@selector(reportImportBegan:) name:[ReportNotification reportImportBegan] object:nil];
     [notifications addObserver:self selector:@selector(reportImportProgress:) name:[ReportNotification reportImportProgress] object:nil];
-    [notifications addObserver:self selector:@selector(reportImportFinished:) name:[ReportNotification reportImportProgress] object:nil];
+    [notifications addObserver:self selector:@selector(reportImportFinished:) name:[ReportNotification reportImportFinished] object:nil];
+    
+    return self;
 }
 
 - (void)dealloc
@@ -63,16 +72,19 @@
 
 - (void)reportImportFinished:(NSNotification *)notification
 {
-    Report *report = notification.userInfo[@"report"];
-    [pendingReports removeObject:report];
-    [self.tableView reloadData];
+    dispatch_time_t showReportUntil = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC);
+    dispatch_after(showReportUntil, dispatch_get_main_queue(), ^{
+        Report *report = notification.userInfo[@"report"];
+        [pendingReports removeObject:report];
+        [self.tableView reloadData];
+    });
 }
 
 - (NSMutableArray *)findPendingReports
 {
     NSMutableArray *reports = [[[ReportAPI sharedInstance] getReports] mutableCopy];
     [reports filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Report *report, NSDictionary *bindings) {
-        return !report.isEnabled;
+        return !report.isEnabled && report.totalNumberOfFiles > 0;
     }]];
     return reports;
 }
@@ -92,7 +104,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"pendingReportCell" forIndexPath:indexPath];
     
     // Configure the cell...
     Report *report = pendingReports[indexPath.row];
