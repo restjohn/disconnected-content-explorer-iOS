@@ -17,6 +17,7 @@
 @implementation ImportProgressTableController
 {
     NSMutableArray *pendingReports;
+    NSMutableArray *finishedReports;
 }
 
 - (instancetype)initWithTableView:(UITableView *)tableView
@@ -31,6 +32,7 @@
     tableView.dataSource = self;
     
     pendingReports = [self findPendingReports];
+    finishedReports = [NSMutableArray array];
     
     NSNotificationCenter *notifications = [NSNotificationCenter defaultCenter];
     
@@ -58,7 +60,7 @@
 {
     Report *report = notification.userInfo[@"report"];
     [pendingReports insertObject:report atIndex:0];
-    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
 }
 
 - (void)reportImportProgress:(NSNotification *)notification
@@ -69,7 +71,7 @@
     }
     else {
         NSUInteger reportIndex = [pendingReports indexOfObject:report];
-        UITableViewCell *reportCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:reportIndex inSection:0]];
+        UITableViewCell *reportCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:reportIndex inSection:1]];
         [self updateValuesForReportCell:reportCell fromReport:report];
     }
 }
@@ -77,18 +79,31 @@
 - (UITableViewCell *)updateValuesForReportCell:(UITableViewCell *)reportCell fromReport:(Report *)report
 {
     reportCell.textLabel.text = report.title;
-    reportCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu/%lu files extacted", report.progress, report.totalNumberOfFiles];
+    if (report.progress < report.totalNumberOfFiles) {
+        reportCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu/%lu files extracted", report.progress, report.totalNumberOfFiles];
+    }
+    else {
+        reportCell.detailTextLabel.text = [NSString stringWithFormat:@"Complete: %lu files extracted", report.totalNumberOfFiles];
+    }
     return reportCell;
 }
 
 - (void)reportImportFinished:(NSNotification *)notification
 {
-    dispatch_time_t showReportUntil = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC);
-    dispatch_after(showReportUntil, dispatch_get_main_queue(), ^{
-        Report *report = notification.userInfo[@"report"];
-        [pendingReports removeObject:report];
-        [self.tableView reloadData];
-    });
+    Report *report = notification.userInfo[@"report"];
+    NSUInteger reportIndex = [pendingReports indexOfObject:report];
+    if (reportIndex == NSNotFound) {
+        return;
+    }
+    NSIndexPath *reportPath = [NSIndexPath indexPathForRow:reportIndex inSection:1];
+    NSIndexPath *finishPath = [NSIndexPath indexPathForRow:finishedReports.count inSection:0];
+    [pendingReports removeObjectAtIndex:reportIndex];
+    [finishedReports addObject:report];
+    [self.tableView moveRowAtIndexPath:reportPath toIndexPath:finishPath];
+    
+//    dispatch_time_t showReportUntil = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC);
+//    dispatch_after(showReportUntil, dispatch_get_main_queue(), ^{
+//    });
 }
 
 - (NSMutableArray *)findPendingReports
@@ -104,11 +119,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return finishedReports.count;
+    }
     return pendingReports.count;
 }
 
@@ -116,13 +134,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"pendingReportCell" forIndexPath:indexPath];
-    Report *report = pendingReports[indexPath.row];
+    Report *report = nil;
+    if (indexPath.section == 0) {
+        report = finishedReports[indexPath.row];
+    }
+    else {
+        report = pendingReports[indexPath.row];
+    }
     return [self updateValuesForReportCell:cell fromReport:report];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
 }
 
 /*
