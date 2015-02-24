@@ -525,12 +525,12 @@
                                 <rect key="frame" x="90" y="933" width="248" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WG6-0Z-les">
-                                        <rect key="frame" x="20" y="10" width="89" height="30"/>
+                                        <rect key="frame" x="59" y="10" width="131" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="89" id="Cta-Tk-MYV"/>
+                                            <constraint firstAttribute="width" constant="131" id="Cta-Tk-MYV"/>
                                             <constraint firstAttribute="height" constant="30" id="DnB-Rg-ova"/>
                                         </constraints>
-                                        <state key="normal" title="Begin Import">
+                                        <state key="normal" title="Begin Fake Import">
                                             <color key="titleColor" red="0.0" green="0.78364158163265307" blue="0.069368128337045934" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -538,25 +538,10 @@
                                             <action selector="testImportBegin" destination="0yA-Pc-3Yj" eventType="touchUpInside" id="snD-Lb-LDn"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="icj-tk-mby">
-                                        <rect key="frame" x="138" y="10" width="90" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="90" id="brP-B9-7W6"/>
-                                            <constraint firstAttribute="height" constant="30" id="sKq-PG-hWW"/>
-                                        </constraints>
-                                        <state key="normal" title="Finish Import">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="testImportFinish" destination="0yA-Pc-3Yj" eventType="touchUpInside" id="MCZ-iP-HNL"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerY" secondItem="icj-tk-mby" secondAttribute="centerY" id="1tH-Xi-Qup"/>
-                                    <constraint firstAttribute="centerX" secondItem="icj-tk-mby" secondAttribute="centerX" constant="-59" id="BJz-za-ohA"/>
-                                    <constraint firstItem="icj-tk-mby" firstAttribute="leading" secondItem="WG6-0Z-les" secondAttribute="trailing" constant="29" id="XVa-wK-lKr"/>
+                                    <constraint firstAttribute="centerX" secondItem="WG6-0Z-les" secondAttribute="centerX" constant="-0.5" id="FJY-oD-otm"/>
                                     <constraint firstAttribute="centerY" secondItem="WG6-0Z-les" secondAttribute="centerY" id="oKC-OR-nhY"/>
                                 </constraints>
                             </view>
@@ -598,7 +583,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1194" y="1766"/>
+            <point key="canvasLocation" x="-1194" y="1770"/>
         </scene>
         <!--Report Resource View Container-->
         <scene sceneID="YFE-zQ-7hJ">

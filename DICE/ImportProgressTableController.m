@@ -57,17 +57,28 @@
 - (void)reportImportBegan:(NSNotification *)notification
 {
     Report *report = notification.userInfo[@"report"];
-    [pendingReports addObject:report];
-    [self.tableView reloadData];
+    [pendingReports insertObject:report atIndex:0];
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
 }
 
 - (void)reportImportProgress:(NSNotification *)notification
 {
     Report *report = notification.userInfo[@"report"];
     if (![pendingReports containsObject:report]) {
-        [pendingReports addObject:report];
+        [self reportImportBegan:notification];
     }
-    [self.tableView reloadData];
+    else {
+        NSUInteger reportIndex = [pendingReports indexOfObject:report];
+        UITableViewCell *reportCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:reportIndex inSection:0]];
+        [self updateValuesForReportCell:reportCell fromReport:report];
+    }
+}
+
+- (UITableViewCell *)updateValuesForReportCell:(UITableViewCell *)reportCell fromReport:(Report *)report
+{
+    reportCell.textLabel.text = report.title;
+    reportCell.detailTextLabel.text = [NSString stringWithFormat:@"%lu/%lu files extacted", report.progress, report.totalNumberOfFiles];
+    return reportCell;
 }
 
 - (void)reportImportFinished:(NSNotification *)notification
@@ -105,13 +116,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"pendingReportCell" forIndexPath:indexPath];
-    
-    // Configure the cell...
     Report *report = pendingReports[indexPath.row];
-    cell.textLabel.text = report.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu/%lu files extacted", report.progress, report.totalNumberOfFiles];
-    
-    return cell;
+    return [self updateValuesForReportCell:cell fromReport:report];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
 }
 
 /*
