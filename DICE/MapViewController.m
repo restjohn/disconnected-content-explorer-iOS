@@ -167,7 +167,7 @@
 
 - (IBAction)testImportBegin
 {
-    NSUInteger total = (NSUInteger)floor((drand48() * 25.0));
+    NSUInteger total = (NSUInteger)floor((drand48() * 12.0));
     NSString *id = [[NSUUID UUID] UUIDString];
     Report *report = [Report reportWithTitle:[NSString stringWithFormat:@"Test - %@", id]];
     report.reportID = id;
