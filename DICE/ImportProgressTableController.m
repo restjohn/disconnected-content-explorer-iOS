@@ -10,7 +10,11 @@
 
 #import "ReportAPI.h"
 
-@interface ImportProgressTableController ()
+
+@interface ImportProgressTableController () <UITableViewDataSource, UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableViewCell *importFinishedCell;
 
 @end
 
@@ -20,16 +24,12 @@
     NSMutableArray *finishedReports;
 }
 
-- (instancetype)initWithTableView:(UITableView *)tableView
+- (void)viewDidLoad
 {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.tableView = tableView;
-    tableView.delegate = self;
-    tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     pendingReports = [self findPendingReports];
     finishedReports = [NSMutableArray array];
@@ -39,8 +39,6 @@
     [notifications addObserver:self selector:@selector(reportImportBegan:) name:[ReportNotification reportImportBegan] object:nil];
     [notifications addObserver:self selector:@selector(reportImportProgress:) name:[ReportNotification reportImportProgress] object:nil];
     [notifications addObserver:self selector:@selector(reportImportFinished:) name:[ReportNotification reportImportFinished] object:nil];
-    
-    return self;
 }
 
 - (void)dealloc
@@ -60,7 +58,7 @@
 {
     Report *report = notification.userInfo[@"report"];
     [pendingReports insertObject:report atIndex:0];
-    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
 }
 
 - (void)reportImportProgress:(NSNotification *)notification
@@ -71,7 +69,7 @@
     }
     else {
         NSUInteger reportIndex = [pendingReports indexOfObject:report];
-        UITableViewCell *reportCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:reportIndex inSection:1]];
+        UITableViewCell *reportCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:reportIndex inSection:0]];
         [self updateValuesForReportCell:reportCell fromReport:report];
     }
 }
@@ -90,20 +88,10 @@
 
 - (void)reportImportFinished:(NSNotification *)notification
 {
-    Report *report = notification.userInfo[@"report"];
-    NSUInteger reportIndex = [pendingReports indexOfObject:report];
-    if (reportIndex == NSNotFound) {
-        return;
-    }
-    NSIndexPath *reportPath = [NSIndexPath indexPathForRow:reportIndex inSection:1];
-    NSIndexPath *finishPath = [NSIndexPath indexPathForRow:finishedReports.count inSection:0];
-    [pendingReports removeObjectAtIndex:reportIndex];
-    [finishedReports addObject:report];
-    [self.tableView moveRowAtIndexPath:reportPath toIndexPath:finishPath];
-    
-//    dispatch_time_t showReportUntil = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC);
-//    dispatch_after(showReportUntil, dispatch_get_main_queue(), ^{
-//    });
+}
+
+- (void)showFinishedReport
+{
 }
 
 - (NSMutableArray *)findPendingReports
@@ -119,28 +107,19 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return finishedReports.count;
-    }
     return pendingReports.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"pendingReportCell" forIndexPath:indexPath];
-    Report *report = nil;
-    if (indexPath.section == 0) {
-        report = finishedReports[indexPath.row];
-    }
-    else {
-        report = pendingReports[indexPath.row];
-    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"importProgressCell" forIndexPath:indexPath];
+    Report *report = pendingReports[indexPath.row];
     return [self updateValuesForReportCell:cell fromReport:report];
 }
 

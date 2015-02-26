@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImportProgressTableController : UITableViewController
-
-- (instancetype)initWithTableView:(UITableView *)tableView;
+@interface ImportProgressTableController : UIViewController
 
 @end

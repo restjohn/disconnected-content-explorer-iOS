@@ -10,12 +10,12 @@
 
 #define METERS_PER_MILE = 1609.344
 
+
 @interface MapViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *noLocationsView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *importIndicator;
 @property (weak, nonatomic) IBOutlet UIView *importProgressView;
-@property (weak, nonatomic) IBOutlet UITableView *importProgressTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *importProgressWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *importProgressHeight;
 
@@ -23,7 +23,6 @@
 
 - (IBAction)importIndicatorTapped:(UITapGestureRecognizer *)sender;
 - (IBAction)testImportBegin;
-- (IBAction)testImportFinish;
 
 @end
 
@@ -40,10 +39,7 @@
     self.noLocationsView.layer.cornerRadius = 10.0;
     self.mapView.delegate = self;
     polygonsAdded = NO;
-    
-    self.importProgressTable = [[ImportProgressTableController alloc] initWithTableView:self.importProgressTableView];
-    [self.importProgressTable willMoveToParentViewController:self];
-    [self addChildViewController:self.importProgressTable];
+
     self.importProgressView.layer.cornerRadius = self.importIndicator.bounds.size.width / 2;
 //    self.importProgressView.hidden = YES;
 //    self.importProgressWidth.constant = self.importIndicator.bounds.size.width;
@@ -180,10 +176,6 @@
     });
 }
 
-- (IBAction)testImportFinish
-{
-}
-
 - (void)testImportAdvanceProgressForReport:(Report *)report
 {
     if (report.progress == report.totalNumberOfFiles) {
@@ -220,8 +212,8 @@
 - (void)showImportProgressView
 {
     self.importProgressView.hidden = NO;
-    self.importProgressWidth.constant = 320.0;
-    self.importProgressHeight.constant = 92.0;
+    self.importProgressWidth.constant = 365.0;
+    self.importProgressHeight.constant = 260.0;
     [UIView animateWithDuration:0.25 animations:^{
         [self.importProgressView layoutIfNeeded];
     }];
