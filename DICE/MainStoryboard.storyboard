@@ -522,7 +522,7 @@
                                     <constraint firstAttribute="trailing" secondItem="yJD-il-XxU" secondAttribute="trailing" id="0fe-29-3GQ"/>
                                     <constraint firstItem="yJD-il-XxU" firstAttribute="leading" secondItem="uMB-xY-nIb" secondAttribute="leading" id="22s-A0-j8j"/>
                                     <constraint firstAttribute="height" constant="116" placeholder="YES" id="70K-yh-4id"/>
-                                    <constraint firstAttribute="width" constant="365" placeholder="YES" id="iNw-UW-u9e"/>
+                                    <constraint firstAttribute="width" constant="365" id="iNw-UW-u9e"/>
                                     <constraint firstAttribute="bottom" secondItem="yJD-il-XxU" secondAttribute="bottom" constant="20" id="vVl-d0-b22"/>
                                     <constraint firstAttribute="height" secondItem="yJD-il-XxU" secondAttribute="height" constant="40" id="w2y-kt-HTb"/>
                                 </constraints>
