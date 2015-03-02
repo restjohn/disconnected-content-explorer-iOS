@@ -14,7 +14,7 @@
 @interface ImportProgressTableController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UITableViewCell *importFinishedCell;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableHeight;
 
 @end
 
@@ -58,7 +58,11 @@
 {
     Report *report = notification.userInfo[@"report"];
     [pendingReports insertObject:report atIndex:0];
-    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+    [UIView animateWithDuration:0.25 animations:^{
+            _tableHeight.constant += _tableView.rowHeight;
+        } completion:^(BOOL finished) {
+            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+        }];
 }
 
 - (void)reportImportProgress:(NSNotification *)notification

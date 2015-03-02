@@ -16,10 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIView *noLocationsView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *importIndicator;
 @property (weak, nonatomic) IBOutlet UIView *importProgressView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *importProgressWidth;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *importProgressHeight;
-
-@property (strong, nonatomic) ImportProgressTableController *importProgressTable;
 
 - (IBAction)importIndicatorTapped:(UITapGestureRecognizer *)sender;
 - (IBAction)testImportBegin;
@@ -41,9 +37,6 @@
     polygonsAdded = NO;
 
     self.importProgressView.layer.cornerRadius = self.importIndicator.bounds.size.width / 2;
-//    self.importProgressView.hidden = YES;
-//    self.importProgressWidth.constant = self.importIndicator.bounds.size.width;
-//    self.importProgressHeight.constant = self.importIndicator.bounds.size.height;
 }
 
 
@@ -212,17 +205,18 @@
 - (void)showImportProgressView
 {
     self.importProgressView.hidden = NO;
-    self.importProgressWidth.constant = 365.0;
-    self.importProgressHeight.constant = 260.0;
+//    self.importProgressHeight.constant = 116.0;
+//    self.importProgressWidth.constant = 365.0;
     [UIView animateWithDuration:0.25 animations:^{
         [self.importProgressView layoutIfNeeded];
+        [self.view bringSubviewToFront:self.importIndicator];
     }];
 }
 
 - (void)hideImportProgressView
 {
-    self.importProgressWidth.constant = self.importIndicator.frame.size.width;
-    self.importProgressHeight.constant = self.importIndicator.frame.size.height;
+//    self.importProgressHeight.constant = self.importIndicator.frame.size.height;
+//    self.importProgressWidth.constant = self.importIndicator.frame.size.width;
     [UIView animateWithDuration:0.25 animations:^{
             [self.importProgressView layoutIfNeeded];
         }

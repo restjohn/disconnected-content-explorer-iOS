@@ -474,26 +474,6 @@
                                     <constraint firstAttribute="bottom" secondItem="aOh-B5-gVZ" secondAttribute="bottom" id="mS1-hg-bF0"/>
                                 </constraints>
                             </view>
-                            <view alpha="0.74999999999999978" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMB-xY-nIb" userLabel="Import Progress">
-                                <rect key="frame" x="383" y="744" width="365" height="260"/>
-                                <subviews>
-                                    <containerView opaque="NO" alpha="0.74999999999999978" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KRE-af-egD">
-                                        <rect key="frame" x="0.0" y="20" width="365" height="220"/>
-                                        <connections>
-                                            <segue destination="uRB-f7-XZ2" kind="embed" id="bwI-3Y-GQM"/>
-                                        </connections>
-                                    </containerView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="260" id="GNj-RM-QdA"/>
-                                    <constraint firstAttribute="bottom" secondItem="KRE-af-egD" secondAttribute="bottom" priority="999" constant="20" id="GSm-JQ-ZT5"/>
-                                    <constraint firstItem="KRE-af-egD" firstAttribute="top" secondItem="uMB-xY-nIb" secondAttribute="top" priority="999" constant="20" id="Gf5-Zv-yoK"/>
-                                    <constraint firstAttribute="width" constant="365" id="gUN-RK-ChJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="KRE-af-egD" secondAttribute="trailing" priority="999" id="i6D-Ea-Thr"/>
-                                    <constraint firstItem="KRE-af-egD" firstAttribute="leading" secondItem="uMB-xY-nIb" secondAttribute="leading" priority="999" id="jEz-dC-tYW"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1gF-8q-0JT" userLabel="Import Progress Test">
                                 <rect key="frame" x="20" y="958" width="190" height="46"/>
                                 <subviews>
@@ -527,6 +507,26 @@
                                     <outletCollection property="gestureRecognizers" destination="9V3-PR-dSm" appends="YES" id="h0S-Ez-vnC"/>
                                 </connections>
                             </activityIndicatorView>
+                            <view alpha="0.74999999999999978" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMB-xY-nIb" userLabel="Import Progress">
+                                <rect key="frame" x="383" y="888" width="365" height="116"/>
+                                <subviews>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yJD-il-XxU" userLabel="Import Progress Container View">
+                                        <rect key="frame" x="0.0" y="20" width="365" height="76"/>
+                                        <connections>
+                                            <segue destination="uRB-f7-XZ2" kind="embed" id="zqp-cE-04G"/>
+                                        </connections>
+                                    </containerView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="yJD-il-XxU" secondAttribute="trailing" id="0fe-29-3GQ"/>
+                                    <constraint firstItem="yJD-il-XxU" firstAttribute="leading" secondItem="uMB-xY-nIb" secondAttribute="leading" id="22s-A0-j8j"/>
+                                    <constraint firstAttribute="height" constant="116" placeholder="YES" id="70K-yh-4id"/>
+                                    <constraint firstAttribute="width" constant="365" placeholder="YES" id="iNw-UW-u9e"/>
+                                    <constraint firstAttribute="bottom" secondItem="yJD-il-XxU" secondAttribute="bottom" constant="20" id="vVl-d0-b22"/>
+                                    <constraint firstAttribute="height" secondItem="yJD-il-XxU" secondAttribute="height" constant="40" id="w2y-kt-HTb"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -548,10 +548,8 @@
                     <size key="freeformSize" width="768" height="1024"/>
                     <connections>
                         <outlet property="importIndicator" destination="qyU-0Y-MvK" id="mcM-gO-9Xl"/>
-                        <outlet property="importProgressHeight" destination="GNj-RM-QdA" id="TcX-Mz-hIr"/>
                         <outlet property="importProgressTableView" destination="IEq-yI-VDg" id="DKh-22-cMv"/>
                         <outlet property="importProgressView" destination="uMB-xY-nIb" id="C2m-V8-rlY"/>
-                        <outlet property="importProgressWidth" destination="gUN-RK-ChJ" id="m6n-No-K5s"/>
                         <outlet property="mapView" destination="ysV-dQ-vF9" id="RVZ-9L-iNt"/>
                         <outlet property="noLocationsView" destination="aCD-Yd-k1W" id="aa9-Lc-VAj"/>
                     </connections>
@@ -681,16 +679,16 @@
             </objects>
             <point key="canvasLocation" x="-2291" y="-1629"/>
         </scene>
-        <!--Import Progress Table Controller-->
+        <!--Import Progress View Controller-->
         <scene sceneID="Vjy-mB-FNK">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="uRB-f7-XZ2" customClass="ImportProgressTableController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mapImportProgressViewController" automaticallyAdjustsScrollViewInsets="NO" id="uRB-f7-XZ2" userLabel="Import Progress View Controller" customClass="ImportProgressTableController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="U5q-lm-10f"/>
                         <viewControllerLayoutGuide type="bottom" id="06N-0v-9RR"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9RB-hb-w2i" userLabel="Import Progress View">
-                        <rect key="frame" x="0.0" y="0.0" width="365" height="220"/>
+                        <rect key="frame" x="0.0" y="0.0" width="365" height="76"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jNz-1T-AC8" userLabel="Import Finished">
@@ -698,6 +696,9 @@
                                 <subviews>
                                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KqD-cZ-ES7">
                                         <rect key="frame" x="15" y="22" width="349" height="14"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="14" id="juw-Uv-Mqp"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -705,7 +706,7 @@
                                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NR9-HC-LmF">
                                         <rect key="frame" x="15" y="3" width="349" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="349" id="riN-Jy-fXJ"/>
+                                            <constraint firstAttribute="height" constant="20" id="sd4-8q-9h7"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -714,20 +715,21 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="NR9-HC-LmF" firstAttribute="top" secondItem="jNz-1T-AC8" secondAttribute="top" constant="3" id="13f-aW-iMa"/>
-                                    <constraint firstItem="KqD-cZ-ES7" firstAttribute="trailing" secondItem="jNz-1T-AC8" secondAttribute="trailingMargin" constant="7" id="2G5-nD-4Ar"/>
-                                    <constraint firstItem="KqD-cZ-ES7" firstAttribute="top" secondItem="jNz-1T-AC8" secondAttribute="top" constant="22" id="72r-tI-jz3"/>
-                                    <constraint firstAttribute="bottom" secondItem="NR9-HC-LmF" secondAttribute="bottom" constant="15" id="7Pt-cU-azK"/>
-                                    <constraint firstAttribute="height" constant="38" id="L51-33-4vT"/>
-                                    <constraint firstAttribute="bottom" secondItem="KqD-cZ-ES7" secondAttribute="bottom" constant="2" id="MbV-sC-XND"/>
-                                    <constraint firstItem="KqD-cZ-ES7" firstAttribute="leading" secondItem="NR9-HC-LmF" secondAttribute="leading" id="OUo-aI-xRQ"/>
-                                    <constraint firstItem="KqD-cZ-ES7" firstAttribute="trailing" secondItem="NR9-HC-LmF" secondAttribute="trailing" id="o7R-0t-cye"/>
-                                    <constraint firstItem="KqD-cZ-ES7" firstAttribute="leading" secondItem="jNz-1T-AC8" secondAttribute="leadingMargin" constant="7" id="yLX-Bm-WtV"/>
+                                    <constraint firstItem="NR9-HC-LmF" firstAttribute="leading" secondItem="KqD-cZ-ES7" secondAttribute="leading" id="BLz-qf-YsY"/>
+                                    <constraint firstItem="NR9-HC-LmF" firstAttribute="leading" secondItem="jNz-1T-AC8" secondAttribute="leading" constant="15" id="HFb-hT-gEn"/>
+                                    <constraint firstItem="KqD-cZ-ES7" firstAttribute="top" secondItem="NR9-HC-LmF" secondAttribute="bottom" constant="-1" id="T03-D0-J4d"/>
+                                    <constraint firstItem="NR9-HC-LmF" firstAttribute="trailing" secondItem="KqD-cZ-ES7" secondAttribute="trailing" id="UDu-ZS-XE0"/>
+                                    <constraint firstAttribute="trailing" secondItem="NR9-HC-LmF" secondAttribute="trailing" constant="1" id="c9z-EB-81t"/>
+                                    <constraint firstAttribute="height" constant="38" id="dWS-43-g3m"/>
+                                    <constraint firstItem="NR9-HC-LmF" firstAttribute="top" secondItem="jNz-1T-AC8" secondAttribute="top" constant="3" id="vxG-Lf-0dT"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="38" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="IEq-yI-VDg" userLabel="Import Progress Table">
-                                <rect key="frame" x="0.0" y="46" width="365" height="174"/>
+                                <rect key="frame" x="0.0" y="38" width="365" height="38"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="o7c-Fr-qEW"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="importProgressCell" textLabel="lV3-y5-Yf2" detailTextLabel="G2Z-7t-vdE" rowHeight="38" style="IBUITableViewCellStyleSubtitle" id="Ic2-IJ-784" userLabel="Import Progress Cell">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -754,22 +756,25 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="jNz-1T-AC8" firstAttribute="top" secondItem="U5q-lm-10f" secondAttribute="bottom" id="8fO-fm-bve"/>
-                            <constraint firstItem="IEq-yI-VDg" firstAttribute="top" secondItem="jNz-1T-AC8" secondAttribute="bottom" constant="8" id="GpI-bC-qgV"/>
-                            <constraint firstItem="jNz-1T-AC8" firstAttribute="leading" secondItem="IEq-yI-VDg" secondAttribute="leading" id="Gvm-aT-B2X"/>
-                            <constraint firstItem="jNz-1T-AC8" firstAttribute="trailing" secondItem="IEq-yI-VDg" secondAttribute="trailing" id="Rgq-xz-f5f"/>
-                            <constraint firstItem="jNz-1T-AC8" firstAttribute="leading" secondItem="9RB-hb-w2i" secondAttribute="leading" id="Vns-jj-tIp"/>
-                            <constraint firstItem="IEq-yI-VDg" firstAttribute="bottom" secondItem="06N-0v-9RR" secondAttribute="top" id="mD5-IG-87x"/>
+                            <constraint firstAttribute="trailing" secondItem="IEq-yI-VDg" secondAttribute="trailing" id="2Hz-8r-Lbi"/>
+                            <constraint firstItem="jNz-1T-AC8" firstAttribute="leading" secondItem="9RB-hb-w2i" secondAttribute="leading" id="7n1-eh-wOx"/>
+                            <constraint firstItem="IEq-yI-VDg" firstAttribute="leading" secondItem="9RB-hb-w2i" secondAttribute="leading" id="MWS-5q-NFb"/>
+                            <constraint firstItem="jNz-1T-AC8" firstAttribute="top" secondItem="9RB-hb-w2i" secondAttribute="top" id="RIC-lU-yic"/>
+                            <constraint firstItem="IEq-yI-VDg" firstAttribute="top" secondItem="jNz-1T-AC8" secondAttribute="bottom" id="YOY-Xz-gUk"/>
+                            <constraint firstAttribute="trailing" secondItem="jNz-1T-AC8" secondAttribute="trailing" id="aC9-RE-mbd"/>
+                            <constraint firstItem="IEq-yI-VDg" firstAttribute="leading" secondItem="9RB-hb-w2i" secondAttribute="leading" id="j0i-aa-wgf"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="IEq-yI-VDg" secondAttribute="bottom" id="otW-aC-XTf"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <connections>
+                        <outlet property="tableHeight" destination="o7c-Fr-qEW" id="w0F-0h-XLC"/>
                         <outlet property="tableView" destination="IEq-yI-VDg" id="GEA-D5-JiJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dsu-H6-9wv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1190.5" y="2530"/>
+            <point key="canvasLocation" x="-1193.5" y="2506"/>
         </scene>
     </scenes>
     <resources>
