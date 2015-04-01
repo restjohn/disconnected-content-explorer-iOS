@@ -11,6 +11,9 @@
 #import "ReportAPI.h"
 
 
+NSUInteger const MAX_PROGRESS_ROWS = 3;
+
+
 @interface ImportProgressTableController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -46,6 +49,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [pendingReports removeAllObjects];
     pendingReports = nil;
+    [finishedReports removeAllObjects];
+    finishedReports = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,11 +63,17 @@
 {
     Report *report = notification.userInfo[@"report"];
     [pendingReports insertObject:report atIndex:0];
-    [UIView animateWithDuration:0.25 animations:^{
-            _tableHeight.constant += _tableView.rowHeight;
-        } completion:^(BOOL finished) {
-            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
-        }];
+    if (_tableHeight.constant < MAX_PROGRESS_ROWS * _tableView.rowHeight) {
+        [UIView animateWithDuration:0.25 animations:^{
+                _tableHeight.constant += _tableView.rowHeight;
+            } completion:^(BOOL finished) {
+                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+            }];
+    }
+    else {
+        
+    }
+
 }
 
 - (void)reportImportProgress:(NSNotification *)notification
@@ -129,6 +140,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
 }
 
 @end
